@@ -1,6 +1,11 @@
-# First assignment for the Coursera Reproducible Research class with Roger Peng
-Alan Fuller  
-November 14, 2015  
+---
+title: "First assignment for the Coursera Reproducible Research class with Roger Peng"
+author: "Alan Fuller"
+date: "November 14, 2015"
+output: 
+  html_document: 
+    keep_md: yes
+---
 ##Loading and preprocessing the data
 
 I used R to download the file from the website, but have commented out those commands below, as they don't need to be run every time.  Downloading didn't seem to work very well in the knitted markdown file, but is not really necessary anyway, as the file is provided in the repository provided.  This code sets the working directory to a directory "rep_data_activity" one level below the current working directory (it assumes that folder exists if the above line is commented out), it unzips the file there, and reads in the csv file.
@@ -24,32 +29,9 @@ I use the the dplyr and ggplot2 packages from Hadley Wickham, so I load them her
 ```r
 #install.packages("dplyr")
 library(dplyr)
-```
 
-```
-## Warning: package 'dplyr' was built under R version 3.1.3
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 #install.packages("ggplot2")
 library(ggplot2)
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 3.1.3
 ```
 
 
@@ -101,7 +83,7 @@ hist(sum_steps_by_date$sum_steps,
           )
 ```
 
-![](Reproducible_Research_Peer_1_v2_files/figure-html/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 
 *Calculate and report the mean and median total number of steps taken per day*
@@ -151,7 +133,7 @@ plot(interval, avg_steps,
 )
 ```
 
-![](Reproducible_Research_Peer_1_v2_files/figure-html/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
 ```r
 detach(avg_steps_by_interval)
@@ -248,7 +230,7 @@ hist(sum_steps_by_date_no_nulls$new_steps,
           )
 ```
 
-![](Reproducible_Research_Peer_1_v2_files/figure-html/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
 
 Yes, replacing the missing values with the average value for each interval does make the data differ.  In particular, we see that the data takes more the shape of the normal distribution.  Without null values counted, there are many days with 0 steps--something that is unlikely to be true.  Replacing those values with the average values for each interval appears to bring those missing days to look like an "average" day.  
 
@@ -339,7 +321,7 @@ with(avg_steps_week_end[avg_steps_week_end$week_end=="weekday",],
      ))
 ```
 
-![](Reproducible_Research_Peer_1_v2_files/figure-html/unnamed-chunk-14-1.png) 
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14-1.png) 
 
 The second, below, uses ggplot2 by Hadley Wickham.  I like this plot a little better, but it is in a side-by-side format.
 
@@ -354,7 +336,7 @@ ggplot(data=avg_steps_week_end, aes(x=interval, y=avg_steps)) +
           x="Interval", y="Average Steps")
 ```
 
-![](Reproducible_Research_Peer_1_v2_files/figure-html/unnamed-chunk-15-1.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15-1.png) 
 
 
 It does appear that weekend activity is different than week day activity.  On week ends, there are a higher number of steps at various intervals throughout the day, but on weekdays there tends to be a high number of steps within a few given intervals early in the day, but then relatively lower numbers of steps throughout the rest of the day.

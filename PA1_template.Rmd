@@ -1,18 +1,17 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
+title: "First assignment for the Coursera Reproducible Research class with Roger Peng"
+author: "Alan Fuller"
+date: "November 14, 2015"
 output: 
-  html_document:
-    keep_md: true
+  html_document: 
+    keep_md: yes
 ---
-
-
-## Loading and preprocessing the data
+##Loading and preprocessing the data
 
 I used R to download the file from the website, but have commented out those commands below, as they don't need to be run every time.  Downloading didn't seem to work very well in the knitted markdown file, but is not really necessary anyway, as the file is provided in the repository provided.  This code sets the working directory to a directory "rep_data_activity" one level below the current working directory (it assumes that folder exists if the above line is commented out), it unzips the file there, and reads in the csv file.
 
 ```{r, echo=TRUE}
 #if(!file.exists("./rep_data_activity")){dir.create("./rep_data_activity")}
-setwd("C:/Users/afuller.ORADEV/Documents/R/data")
 setwd( "./rep_data_activity")
 
 #fileURL1 <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
@@ -32,7 +31,6 @@ library(dplyr)
 #install.packages("ggplot2")
 library(ggplot2)
 ```
-
 
 
 
@@ -76,11 +74,9 @@ Mean_median_steps
 
 
 
+##What is the average daily activity pattern?
 
-
-## What is the average daily activity pattern?
-
-*Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)*
+*Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 First, calculate the average number of steps taken for each interval across all days:
 ```{r, echo=TRUE}
@@ -112,8 +108,7 @@ max_interval <-avg_steps_by_interval[which.max(avg_steps_by_interval$avg_steps),
 max_interval
 ```
 
-
-## Imputing missing values
+##Imputing missing values
 
 Note that there are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data.
 
@@ -146,6 +141,7 @@ sum_steps_by_date_no_nulls<- summarize(by_date_no_nulls,
 sum_steps_by_date_no_nulls
 ```
 
+
 *Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?*
 
 The histogram is below:
@@ -162,7 +158,7 @@ hist(sum_steps_by_date_no_nulls$new_steps,
 
 Yes, replacing the missing values with the average value for each interval does make the data differ.  In particular, we see that the data takes more the shape of the normal distribution.  Without null values counted, there are many days with 0 steps--something that is unlikely to be true.  Replacing those values with the average values for each interval appears to bring those missing days to look like an "average" day.  
 
-Calculate and report the mean and median number of steps (with missing values replaced) as follows:
+Calculate the mean and median number of steps (with missing values replaced) as follows:
 
 ```{r,echo=TRUE}
 Mean_median_new_steps <- summarize(sum_steps_by_date_no_nulls,
@@ -171,17 +167,15 @@ Mean_median_new_steps <- summarize(sum_steps_by_date_no_nulls,
 Mean_median_new_steps
 ```
 
-
 We see that the mean number of steps increases slightly when calculating with missing values replaced, from 10,396 to 10,766.  When calculating without missing values, the mean is much lower than the median, at 9354.  With missing values replace, the mean value matches the median value at 10,766.  
 
-
-## Are there differences in activity patterns between weekdays and weekends?
+##Are there differences in activity patterns between weekdays and weekends?
 
 For this part the weekdays() function may be of some help here. Use the dataset with the filled-in missing values for this part.
 
 *Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.*
 
-Here is the new data set with weekdays and weekends designated:
+Here is the new data set:
 ```{r,echo=TRUE}
 activity3 <- mutate(activity2,
                     week_day=weekdays(date),
@@ -194,7 +188,7 @@ avg_steps_week_end
 ```
 
 
-*Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).* 
+*Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).*
 
 I actually make two different versions of this plot.  The first, immediately below, is similar to the example provided by Professor Deng, with both plots in the same column:
 
